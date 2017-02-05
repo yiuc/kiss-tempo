@@ -1,13 +1,10 @@
 # copy this file to jira.ini
 [DEFAULT]
-Host = jira-lc.atlassian.net
-Compression = yes
-CompressionLevel = 9
-ForwardX11 = yes
+Host = [SITEID]
+# USE BASE64 to encrypt you username and password
+# format username:password
+Authorization = [BASE64]
 
-[bitbucket.org]
-User = hg
-
-[topsecret.server.com]
-Port = 50022
-ForwardX11 = no
+[TEMPO]
+name = [USERNAME]
+ProjectId = [PROJECTID]

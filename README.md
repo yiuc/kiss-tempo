@@ -14,5 +14,8 @@ create you virutal environments, go to the kiss folder
 install the require packages
 `env/bin/pip install -r requirements.txt`
 
-### execute the script  
+## modify the properties
+copy the jira-properties to jira.ini  
+
+## execute the script  
 `python UploadToTempo.py`  
