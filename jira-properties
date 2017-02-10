@@ -3,6 +3,8 @@
 Host = [SITEID]
 # USE BASE64 to encrypt you username and password
 # format username:password
+# try this online converter
+# https://www.base64encode.org/
 Authorization = [BASE64]
 
 [TEMPO]
