@@ -2,7 +2,7 @@
 Keep tempo simple and stupid  
 This is a simple program to upload you timesheet to Jira Tempo
 
-## Installation
+## 1. Installation
 ### install virtualenv
 install pip - recommended tool for installing Python packages  
 `sudo easy_install pip`  
@@ -14,8 +14,8 @@ create you virutal environments, go to the kiss folder
 install the require packages
 `env/bin/pip install -r requirements.txt`
 
-## modify the properties
+## 2. copy and modify the properties
 copy the jira-properties to jira.ini  
 
-## execute the script  
+## 3. execute the script  
 `env/bin/python UploadToTempo.py timesheets.csv`
