@@ -18,4 +18,4 @@ install the require packages
 copy the jira-properties to jira.ini  
 
 ## 3. execute the script  
-`env/bin/python UploadToTempo.py timesheets.csv`
+`env/bin/python kiss-tempo.py timesheets.csv`
