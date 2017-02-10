@@ -1,10 +1,11 @@
 import requests
-import json
-import ConfigParser, os
+import json, csv
+import ConfigParser, os, sys
 
 # Reference
 # http://docs.python-guide.org/en/latest/scenarios/json/
 # http://tempo.io/doc/timesheets/api/rest/latest/#1799179586
+# http://swaywang.blogspot.hk/2012/05/pythoncsv.html
 
 config = ConfigParser.ConfigParser()
 config.read('jira.ini')
@@ -42,6 +43,17 @@ def createNewWorkLog(tlscode,startedtime,timespent,comment):
     }
 
     response = requests.request("POST", url, data=json.dumps(payload), headers=headers)
+    # print status code
     return response.status_code
 
-print (createNewWorkLog("TLS-8","2017-02-06T15:00:00.000+0000",3600,"test"));
+# startup script
+#line = sys.stdin.readline()
+# read the csv
+f = open(sys.argv[1],'r') if len(sys.argv) > 1 else sys.stdin
+for row in csv.reader(f):
+    #array = row.split(',')
+    #print row[0]
+    print(row[0]+": "createNewWorkLog(row[0],row[1],row[2],row[3]))
+f.close
+# test case
+#print (createNewWorkLog("TLS-8","2017-02-06T15:00:00.000+0000",3600,"test"));
