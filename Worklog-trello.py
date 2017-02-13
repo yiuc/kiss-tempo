@@ -81,8 +81,10 @@ def getWorklogDate(period,date):
         if weekofday == 7:
             unix_datetime = unix_datetime + 172800
         # 6 = Sat
-        if weekofday == 6:
+        elif weekofday == 6:
             unix_datetime = unix_datetime + 259200
+        else:
+            unix_datetime = unix_datetime + 86400
         datetime_obj_hk = timezone('Asia/Hong_Kong').localize(datetime.fromtimestamp(unix_datetime))
         n=n-1;
     return date_arr
