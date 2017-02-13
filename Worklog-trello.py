@@ -105,7 +105,11 @@ def getCompleteCard(cards):
                     startdate = d["fields"][startdatefield]
                     duration = int(d["fields"][durationfield])*60*60
                     tempoid = d["fields"][tempoidfield]
-                    period = d["fields"][daysfield]
+                    try:
+                        period = d["fields"][daysfield]
+                    except KeyError:
+                        period = 1
+                        pass
                     date_arr = getWorklogDate(period,startdate)
                     for d in date_arr:
                         myDict = {"tempoid": tempoid, "startdate": d, "duration": duration, "cardname":cardname}
