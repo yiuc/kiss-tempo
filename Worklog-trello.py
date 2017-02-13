@@ -55,9 +55,9 @@ def getTempoData(cardid):
     else:
         return "NULL"
 
-def writeToCSV(tempoid,startdate,duration,description):
+def writeToCSV(tempoid,startdate,duration,description,membername):
     data = [tempoid, startdate, duration, description]
-    f = open(str(filedate)+'.csv','a')
+    f = open(membername+'-'+str(filedate)+'.csv','a')
     w = csv.writer(f)
     w.writerow(data)
     f.close()
@@ -73,7 +73,7 @@ def getWorklogDate(period,date):
     n = int(period)
     date_arr = []
     while n >= 1:
-        date_arr.append(datetime_obj_hk)
+        date_arr.append(datetime_obj_hk.strftime("%Y-%m-%dT%H:%M:%S"))
         weekofday=int(datetime_obj_hk.strftime('%w'))+1
         # unix time 86400 per day
         unix_datetime = calendar.timegm(datetime_obj_hk.utctimetuple())
@@ -89,6 +89,7 @@ def getWorklogDate(period,date):
 
 def getCompleteCard(cards):
     completedcard = []
+    logger.info("Found %s cards for %s" % (len(cards),membername))
     for card in cards:
         # find the card if it save in ##Completed
         if card["idList"] == thelist:
@@ -116,11 +117,13 @@ def getCompleteCard(cards):
                     print "Unexpected error:", sys.exc_info()[0]
             else:
                 logger.warning("No TEMPO data in %s" % (cardname))
+    logger.info("%s have %s cards in completed list" % (membername,len(completedcard)))
     return completedcard
 
 filedate = datetime.today().strftime("%Y-%m-%d")
 member = sys.argv[1] if len(sys.argv) > 1 else "539010c187655c291d15ef13"
+membername = sys.argv[2] if len(sys.argv) > 1 else "andywong"
 d=getCardsbyMember(member)
 cards=getCompleteCard(cards=d["cards"])
 for card in cards:
-    writeToCSV(card["tempoid"],card["startdate"],card["duration"],card["cardname"])
+    writeToCSV(card["tempoid"],card["startdate"],card["duration"],card["cardname"],membername)
