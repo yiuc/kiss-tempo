@@ -8,7 +8,8 @@ import ConfigParser, os, sys
 # http://swaywang.blogspot.hk/2012/05/pythoncsv.html
 
 config = ConfigParser.ConfigParser()
-config.read('jira.ini')
+configfile = sys.argv[2] if len(sys.argv) > 2 else "jira.ini"
+config.read(configfile)
 
 siteid = config.get('DEFAULT', 'HOST')
 Authorization = config.get('DEFAULT', 'Authorization')
