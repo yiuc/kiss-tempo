@@ -40,6 +40,22 @@ def getCardsbyMember(member):
     data = json.loads(response.text)
     return data
 
+def checkMembers(cardid):
+    url = "https://api.trello.com/1/cards/%s/members" % (cardid)
+    querystring = {"key":key,
+    "token":token}
+    headers = {
+    'cache-control': "no-cache",
+    }
+    response = requests.request("GET", url, headers=headers, params=querystring)
+    data = response.text
+    j_data = data[1:len(data)-1]
+    if len(j_data) > 0:
+        json = json.loads(j_data)
+        return len(json)
+    else
+        return -1
+
 def archiveCard(cardid):
     url = "https://api.trello.com/1/cards/%s/closed" % (cardid)
     querystring = {"value":"true",
@@ -124,7 +140,10 @@ def getCompleteCard(cards):
                     for d in date_arr:
                         myDict = {"tempoid": tempoid, "startdate": d, "duration": duration, "cardname":cardname}
                         completedcard.append(myDict)
-                    archiveCard(card["id"])
+                    if checkMembers(cardid) = 1:
+                        archiveCard(card["id"])
+                    else:
+                        logger.waring("can't archive %s" % (cardname))
                     logger.info("added %s into csv" % (cardname))
                 except KeyError:
                     logger.error("Skip %s because error" % (cardname))
