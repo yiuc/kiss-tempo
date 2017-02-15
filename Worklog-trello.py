@@ -49,12 +49,8 @@ def checkMembers(cardid):
     }
     response = requests.request("GET", url, headers=headers, params=querystring)
     data = response.text
-    j_data = data[1:len(data)-1]
-    if len(j_data) > 0:
-        json = json.loads(j_data)
-        return len(json)
-    else
-        return -1
+    json = json.loads(data)
+    return len(json)
 
 def archiveCard(cardid):
     url = "https://api.trello.com/1/cards/%s/closed" % (cardid)
