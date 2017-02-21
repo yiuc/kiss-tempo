@@ -49,8 +49,9 @@ def checkMembers(cardid):
     }
     response = requests.request("GET", url, headers=headers, params=querystring)
     data = response.text
-    json = json.loads(data)
-    return len(json)
+    logger.debug("checkMembers: " + data)
+    j = json.loads(data)
+    return len(j)
 
 def archiveCard(cardid):
     url = "https://api.trello.com/1/cards/%s/closed" % (cardid)
@@ -136,19 +137,21 @@ def getCompleteCard(cards):
                     for d in date_arr:
                         myDict = {"tempoid": tempoid, "startdate": d, "duration": duration, "cardname":cardname}
                         completedcard.append(myDict)
-                    if checkMembers(cardid) = 1:
+                    print card["id"]
+                    if checkMembers(card["id"]) == 1:
                         archiveCard(card["id"])
                     else:
-                        logger.waring("can't archive %s" % (cardname))
+                        logger.info("can't archive %s" % (cardname))
                     logger.info("added %s into csv" % (cardname))
                 except KeyError:
                     logger.error("Skip %s because error" % (cardname))
                     logger.debug(sys.exc_info())
                     pass
                 except:
-                    print "Unexpected error:", sys.exc_info()[0]
+                    logger.error("Unexpected error: " + str(sys.exc_info()[0]) + " " + cardname)
+                    logger.debug(sys.exc_info())
             else:
-                logger.warning("No TEMPO data in %s" % (cardname))
+                logger.info("No TEMPO data in %s" % (cardname))
     logger.info("%s have %s cards in completed list" % (membername,len(completedcard)))
     return completedcard
 
