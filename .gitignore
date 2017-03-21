@@ -8,6 +8,7 @@ __pycache__/
 
 *.ini
 mytimesheets.csv
+auto-tempo.sh
 
 # Distribution / packaging
 .Python
