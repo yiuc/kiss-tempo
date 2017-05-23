@@ -26,6 +26,7 @@ startdatefield = config.get('CUSTOM', 'startdate')
 durationfield = config.get('CUSTOM', 'duration')
 tempoidfield = config.get('CUSTOM', 'tempoid')
 daysfield = config.get('CUSTOM', 'period')
+typeofworkfield = config.get('CUSTOM', 'typeofwork')
 
 def getCardsbyMember(member):
     url = "https://api.trello.com/1/members/%s" % (member)
