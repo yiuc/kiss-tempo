@@ -28,6 +28,19 @@ tempoidfield = config.get('CUSTOM', 'tempoid')
 daysfield = config.get('CUSTOM', 'period')
 typeofworkfield = config.get('CUSTOM', 'typeofwork')
 
+def ConfigSectionMap(section):
+    dict1 = {}
+    options = Config.options(section)
+    for option in options:
+        try:
+            dict1[option] = Config.get(section, option)
+            if dict1[option] == -1:
+                DebugPrint("skip: %s" % option)
+        except:
+            print("exception on %s!" % option)
+            dict1[option] = None
+    return dict1
+
 def getCardsbyMember(member):
     url = "https://api.trello.com/1/members/%s" % (member)
     querystring = {"fields":"username,fullName",
@@ -79,8 +92,8 @@ def getTempoData(cardid):
     else:
         return "NULL"
 
-def writeToCSV(tempoid,startdate,duration,description,membername):
-    data = [tempoid, startdate, duration, description]
+def writeToCSV(tempoid,startdate,duration,description,membername,typeofwork):
+    data = [tempoid, startdate, duration, description, typeofwork]
     f = open(membername+'-'+str(filedate)+'.csv','a')
     w = csv.writer(f)
     w.writerow(data)
@@ -130,13 +143,19 @@ def getCompleteCard(cards):
                     duration = int(d["fields"][durationfield])*60*60
                     tempoid = d["fields"][tempoidfield]
                     try:
+                        typeofwork_key = d["fields"][typeofworkfield]
+                    except KeyError:
+                        # set to NA
+                        typeofwork_key = "hDFk61"
+                    typeofwork_value = config.get("TYPEOFWORK",typeofwork_key)
+                    try:
                         period = d["fields"][daysfield]
                     except KeyError:
                         period = 1
                         pass
                     date_arr = getWorklogDate(period,startdate)
                     for d in date_arr:
-                        myDict = {"tempoid": tempoid, "startdate": d, "duration": duration, "cardname":cardname}
+                        myDict = {"tempoid": tempoid, "startdate": d, "duration": duration, "cardname":cardname, "typeofwork": typeofwork_value}
                         completedcard.append(myDict)
                     print card["id"]
                     if checkMembers(card["id"]) == 1:
@@ -162,4 +181,4 @@ membername = sys.argv[2] if len(sys.argv) > 1 else "andywong"
 d=getCardsbyMember(member)
 cards=getCompleteCard(cards=d["cards"])
 for card in cards:
-    writeToCSV(card["tempoid"],card["startdate"],card["duration"],card["cardname"],membername)
+    writeToCSV(card["tempoid"],card["startdate"],card["duration"],card["cardname"],membername, card["typeofwork"])

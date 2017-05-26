@@ -19,7 +19,7 @@ ProjectId = config.getint('TEMPO', 'ProjectId')
 # tlscode: TLS-X
 # startedtime: YYYY-MM-ddT00:00:00.000+0000
 # timespent: in seconds
-def createNewWorkLog(tlscode,startedtime,timespent,comment):
+def createNewWorkLog(tlscode,startedtime,timespent,comment,typeofwork_value):
     url = "https://%s/rest/tempo-timesheets/3/worklogs/" % (siteid)
     payload = {
         'timeSpentSeconds': timespent,
@@ -36,7 +36,12 @@ def createNewWorkLog(tlscode,startedtime,timespent,comment):
             'displayName': myname,
             'avatar':'https://'+siteid+'/secure/useravatar?size=small&ownerId='+myname
         },
-        'worklogAttributes': [],
+          "worklogAttributes": [
+        	  {
+        	    "key": "_TypeofWork_",
+        	    "value": typeofwork_value
+        	  }
+          ],
         'workAttributeValues': []
     }
     headers = {
@@ -54,7 +59,7 @@ f = open(sys.argv[1],'r') if len(sys.argv) > 1 else sys.stdin
 for row in csv.reader(f):
     #array = row.split(',')
     #print row[0]
-    print(createNewWorkLog(row[0],row[1],row[2],row[3]))
+    print(createNewWorkLog(row[0],row[1],row[2],row[3],row[4]))
 f.close
 # test case
 #print (createNewWorkLog("TLS-8","2017-02-06T15:00:00.000+0000",3600,"test"));
