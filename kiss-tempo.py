@@ -59,7 +59,11 @@ f = open(sys.argv[1],'r') if len(sys.argv) > 1 else sys.stdin
 for row in csv.reader(f):
     #array = row.split(',')
     #print row[0]
-    print(createNewWorkLog(row[0],row[1],row[2],row[3],row[4]))
+    result = createNewWorkLog(row[0],row[1],row[2],row[3],row[4])
+    if result != 200:
+        print str(result) + " " + str(row[0])
+    else:
+        print "okay"
 f.close
 # test case
 #print (createNewWorkLog("TLS-8","2017-02-06T15:00:00.000+0000",3600,"test"));

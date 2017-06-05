@@ -140,7 +140,7 @@ def getCompleteCard(cards):
                 try:
                     d = json.loads(tempo_d["value"])
                     startdate = d["fields"][startdatefield]
-                    duration = int(d["fields"][durationfield])*60*60
+                    duration = int(float(d["fields"][durationfield])*60*60)
                     tempoid = d["fields"][tempoidfield]
                     try:
                         typeofwork_key = d["fields"][typeofworkfield]
